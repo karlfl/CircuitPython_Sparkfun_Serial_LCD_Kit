@@ -122,7 +122,18 @@ class SerialLCDKit:
 
   def backspace(self):
     self.char_command(_CHAR_CMD_BACKSPACE)
-    
+
+  def set_backlight(self, brightness):
+    self.command(bytes([_CMD_BACKLIGHT, brightness]))
+
+  def set_backlight_pct(self, percent):
+    if(abs(percent) > 1):
+        brightness = int(abs(percent)/100 * 255)
+    else:
+        brightness = int(abs(percent) * 255)
+        
+    self.set_backlight(brightness)
+   
 class BaudRate:
   # the first value of each tuple is the bit rate (used to set the UART),
   # the second is the value expected by the serial backpack to use that bit rate
